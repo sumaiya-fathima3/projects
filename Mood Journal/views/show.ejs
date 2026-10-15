@@ -1,0 +1,36 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/navbar') %>
+
+<main class="container narrow">
+  <article class="detail-card" style="border-top-color: <%= mood.color %>">
+    <div class="detail-icon" style="background: <%= mood.color %>"><%= mood.emoji %></div>
+    <p class="entry-date"><%= entry.date %></p>
+    <h1><%= entry.mood %> mood</h1>
+    <p class="detail-note"><%= entry.note %></p>
+
+    <dl class="detail-grid">
+      <div>
+        <dt>Intensity</dt>
+        <dd><%= entry.intensity %>/10</dd>
+      </div>
+      <div>
+        <dt>Sleep</dt>
+        <dd><%= entry.sleepHours %> hours</dd>
+      </div>
+      <div>
+        <dt>Activity</dt>
+        <dd><%= entry.activity || 'Not recorded' %></dd>
+      </div>
+    </dl>
+
+    <div class="form-actions">
+      <a class="button secondary" href="/">Back to dashboard</a>
+      <a class="button primary" href="/moods/<%= entry.id %>/edit">Edit entry</a>
+      <form action="/moods/<%= entry.id %>/delete" method="POST">
+        <button class="button danger" type="submit">Delete</button>
+      </form>
+    </div>
+  </article>
+</main>
+
+<%- include('partials/footer') %>

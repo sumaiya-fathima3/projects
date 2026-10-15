@@ -1,0 +1,43 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/navbar') %>
+
+<main class="container narrow">
+  <section class="page-title">
+    <p class="eyebrow">Contact</p>
+    <h1>Contact LumaMood</h1>
+    <p>Questions, feedback, or ideas for improving the mood tracker can be sent through this page.</p>
+  </section>
+
+  <section class="card info-card">
+    <div class="card-body">
+      <h2>Get in touch</h2>
+      <p>Email: <a class="text-link" href="mailto:hello@lumamood.local">hello@lumamood.local</a></p>
+      <p>Response time: within 2 working days.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-body">
+      <form class="mood-form contact-form" action="/contact" method="GET">
+        <label>
+          Name
+          <input type="text" name="name" placeholder="Your name">
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" placeholder="you@example.com">
+        </label>
+        <label class="full">
+          Message
+          <textarea name="message" placeholder="Write your message here"></textarea>
+        </label>
+        <div class="form-actions">
+          <button class="button primary" type="submit">Send message</button>
+          <a class="button secondary" href="/">Back to dashboard</a>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

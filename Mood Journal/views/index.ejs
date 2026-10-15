@@ -1,0 +1,120 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/navbar') %>
+
+<main class="container">
+  <section class="hero">
+    <div>
+      <p class="eyebrow">Daily mood tracker</p>
+      <h1>Understand your mood patterns one check-in at a time.</h1>
+      <p class="hero-copy">Record how you feel, what shaped the day, and the habits that affect your wellbeing.</p>
+    </div>
+    <a class="button primary" href="/moods/new">Add today's mood</a>
+  </section>
+
+  <section class="stats-grid" aria-label="Mood summary">
+    <article class="stat-card">
+      <span>Total entries</span>
+      <strong><%= stats.totalEntries %></strong>
+    </article>
+    <article class="stat-card">
+      <span>Average intensity</span>
+      <strong><%= stats.averageIntensity %>/10</strong>
+    </article>
+    <article class="stat-card">
+      <span>Average sleep</span>
+      <strong><%= stats.averageSleep %>h</strong>
+    </article>
+    <article class="stat-card">
+      <span>Most common mood</span>
+      <strong><%= stats.topMood %></strong>
+    </article>
+  </section>
+
+  <section class="card heatmap-card">
+    <div class="card-body">
+      <div class="heatmap-header">
+        <div>
+          <p class="eyebrow">Mood calendar</p>
+          <h2><%= calendar.monthLabel %></h2>
+        </div>
+        <span class="heatmap-note">Latest mood per day</span>
+      </div>
+
+      <div class="calendar-grid" aria-label="Monthly mood calendar">
+        <% calendar.weekdays.forEach((weekday) => { %>
+          <div class="weekday"><%= weekday %></div>
+        <% }) %>
+
+        <% calendar.days.forEach((day) => { %>
+          <% if (!day) { %>
+            <div class="calendar-day empty" aria-hidden="true"></div>
+          <% } else { %>
+            <div
+              class="calendar-day <%= day.entry ? '' : 'no-mood' %>"
+              style="background: <%= day.color %>"
+              title="<%= day.entry ? `${day.date}: ${day.entry.mood} (${day.entry.intensity}/10)` : `${day.date}: No mood recorded` %>"
+              aria-label="<%= day.entry ? `${day.date}: ${day.entry.mood}` : `${day.date}: No mood recorded` %>"
+            >
+              <span><%= day.day %></span>
+            </div>
+          <% } %>
+        <% }) %>
+      </div>
+
+      <div class="legend" aria-label="Mood color legend">
+        <% moodOptions.forEach((mood) => { %>
+          <span class="legend-item">
+            <span class="legend-swatch" style="background: <%= mood.color %>"></span>
+            <%= mood.name %>
+          </span>
+        <% }) %>
+        <span class="legend-item">
+          <span class="legend-swatch neutral"></span>
+          No mood
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-header">
+    <div>
+      <p class="eyebrow">Journal</p>
+      <h2>Recent mood entries</h2>
+    </div>
+  </section>
+
+  <% if (entries.length === 0) { %>
+    <section class="empty-state">
+      <h2>No mood entries yet</h2>
+      <p>Add your first check-in to start building a personal mood history.</p>
+      <a class="button primary" href="/moods/new">Create entry</a>
+    </section>
+  <% } else { %>
+    <section class="entry-list">
+      <% entries.forEach((entry) => { const mood = findMood(entry.mood); %>
+        <article class="entry-card" style="border-left-color: <%= mood.color %>">
+          <div class="entry-main">
+            <div class="mood-badge" style="background: <%= mood.color %>">
+              <span><%= mood.emoji %></span>
+            </div>
+            <div>
+              <p class="entry-date"><%= entry.date %></p>
+              <h3><%= entry.mood %> - <%= entry.intensity %>/10</h3>
+              <p><%= entry.note %></p>
+              <div class="entry-meta">
+                <span>Sleep: <%= entry.sleepHours %>h</span>
+                <span>Activity: <%= entry.activity || 'Not recorded' %></span>
+              </div>
+            </div>
+          </div>
+          <div class="entry-actions">
+            <a class="button secondary" href="/moods/<%= entry.id %>">View</a>
+            <a class="button ghost" href="/moods/<%= entry.id %>/edit">Edit</a>
+          </div>
+        </article>
+      <% }) %>
+    </section>
+  <% } %>
+</main>
+
+<%- include('partials/footer') %>

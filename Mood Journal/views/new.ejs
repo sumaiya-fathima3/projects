@@ -1,0 +1,19 @@
+<%- include('partials/head', { title }) %>
+<%- include('partials/navbar') %>
+
+<main class="container narrow">
+  <section class="page-title">
+    <p class="eyebrow">New check-in</p>
+    <h1>Add a mood entry</h1>
+    <p>Capture the mood, energy, rest, and context for your day.</p>
+  </section>
+
+  <%- include('partials/mood-form', {
+    action: '/moods',
+    buttonLabel: 'Save mood',
+    moodOptions,
+    entry
+  }) %>
+</main>
+
+<%- include('partials/footer') %>

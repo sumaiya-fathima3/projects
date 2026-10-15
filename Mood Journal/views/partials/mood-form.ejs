@@ -1,0 +1,44 @@
+<form class="mood-form" action="<%= action %>" method="POST">
+  <div class="form-grid">
+    <label>
+      Date
+      <input type="date" name="date" value="<%= entry.date %>" required>
+    </label>
+
+    <label>
+      Mood
+      <select name="mood" required>
+        <% moodOptions.forEach((option) => { %>
+          <option value="<%= option.name %>" <%= entry.mood === option.name ? 'selected' : '' %>>
+            <%= option.emoji %> <%= option.name %>
+          </option>
+        <% }) %>
+      </select>
+    </label>
+
+    <label>
+      Intensity: <span><%= entry.intensity %>/10</span>
+      <input type="range" name="intensity" min="1" max="10" value="<%= entry.intensity %>" required>
+    </label>
+
+    <label>
+      Sleep hours
+      <input type="number" name="sleepHours" min="0" max="24" step="0.5" value="<%= entry.sleepHours %>" required>
+    </label>
+
+    <label class="full">
+      Main activity
+      <input type="text" name="activity" value="<%= entry.activity %>" placeholder="Example: walk, study, work, rest">
+    </label>
+
+    <label class="full">
+      Notes
+      <textarea name="note" placeholder="What affected your mood today?" required><%= entry.note %></textarea>
+    </label>
+  </div>
+
+  <div class="form-actions">
+    <button class="button primary" type="submit"><%= buttonLabel %></button>
+    <a class="button secondary" href="/">Cancel</a>
+  </div>
+</form>
